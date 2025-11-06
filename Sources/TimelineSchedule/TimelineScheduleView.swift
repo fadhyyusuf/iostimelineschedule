@@ -185,6 +185,13 @@ public class TimelineScheduleView: UIScrollView {
             }
         }
         
+        // Clear time column lines
+        timeColumnView.layer.sublayers?.forEach { layer in
+            if layer is CAShapeLayer {
+                layer.removeFromSuperlayer()
+            }
+        }
+        
         // Build time labels
         buildTimeLabels()
         
@@ -269,6 +276,9 @@ public class TimelineScheduleView: UIScrollView {
             
             timeColumnView.addSubview(timeLabel)
         }
+        
+        // Draw horizontal lines in time column
+        drawTimeColumnLines()
     }
     
     private func generateTimeLabels() -> [String] {
@@ -281,6 +291,27 @@ public class TimelineScheduleView: UIScrollView {
         }
         
         return labels
+    }
+    
+    private func drawTimeColumnLines() {
+        // Draw horizontal lines in time column (left column only)
+        let lineLayer = CAShapeLayer()
+        let path = UIBezierPath()
+        
+        let labelCount = config.customTimeLabels?.count ?? (endHour - startHour + 1)
+        
+        for i in 0..<labelCount {
+            let y = CGFloat(i) * config.hourHeight
+            // Draw line only in time column area (from left edge to time column width)
+            path.move(to: CGPoint(x: 0, y: y))
+            path.addLine(to: CGPoint(x: config.timeColumnWidth, y: y))
+        }
+        
+        lineLayer.path = path.cgPath
+        lineLayer.strokeColor = config.gridLineColor.cgColor
+        lineLayer.lineWidth = config.gridLineWidth
+        
+        timeColumnView.layer.addSublayer(lineLayer)
     }
     
     private func drawGrid() {
