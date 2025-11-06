@@ -173,11 +173,17 @@ public class TimelineScheduleView: UIScrollView {
         // Update time range based on appointments
         updateTimeRange()
         
-        // Clear existing views and layers
+        // Clear existing views
         timeColumnView.subviews.forEach { $0.removeFromSuperview() }
         appointmentContainerView.subviews.forEach { $0.removeFromSuperview() }
         currentTimeIndicatorView.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
-        contentContainer.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
+        
+        // Clear grid and divider layers (CAShapeLayer only)
+        contentContainer.layer.sublayers?.forEach { layer in
+            if layer is CAShapeLayer {
+                layer.removeFromSuperlayer()
+            }
+        }
         
         // Build time labels
         buildTimeLabels()
@@ -352,6 +358,11 @@ public class TimelineScheduleView: UIScrollView {
         // Ensure height doesn't exceed visible content area
         let maxHeight = (CGFloat(endHour - startHour) * config.hourHeight) - top - config.appointmentPadding
         let clampedHeight = min(height, max(0, maxHeight))
+        
+        // Safety check for division by zero
+        guard positioned.totalColumns > 0, appointmentContainerView.bounds.width > 0 else {
+            return UIView(frame: .zero)
+        }
         
         let columnWidth = appointmentContainerView.bounds.width / CGFloat(positioned.totalColumns)
         let left = columnWidth * CGFloat(positioned.column)
