@@ -173,10 +173,11 @@ public class TimelineScheduleView: UIScrollView {
         // Update time range based on appointments
         updateTimeRange()
         
-        // Clear existing views
+        // Clear existing views and layers
         timeColumnView.subviews.forEach { $0.removeFromSuperview() }
         appointmentContainerView.subviews.forEach { $0.removeFromSuperview() }
         currentTimeIndicatorView.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
+        contentContainer.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
         
         // Build time labels
         buildTimeLabels()
