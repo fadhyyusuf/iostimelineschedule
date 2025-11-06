@@ -41,6 +41,9 @@ class ViewController: UIViewController {
         config.showGridLines = true
         config.showCurrentTimeIndicator = true
         config.currentTimeIndicatorColor = .systemRed
+        // Set fixed time range from 7 AM to 9 PM (21:00)
+        config.fixedStartHour = 7
+        config.fixedEndHour = 21
         
         timelineView.setConfig(config)
         
@@ -62,6 +65,16 @@ class ViewController: UIViewController {
     
     private func createSampleAppointments() -> [Appointment] {
         return [
+            // Early Morning (06:30 - 08:00) - Will be clipped at 7:00
+            Appointment(
+                id: "0",
+                title: "Early Morning Meeting",
+                subtitle: "Starts before visible range",
+                startTime: TimeUtils.createTime(hour: 6, minute: 30),
+                endTime: TimeUtils.createTime(hour: 8, minute: 0),
+                color: UIColor(red: 255/255, green: 152/255, blue: 0/255, alpha: 1.0), // Orange
+                backgroundColor: UIColor(red: 255/255, green: 243/255, blue: 224/255, alpha: 1.0)
+            ),
             // Robert Fox - Checked out (08:00 - 08:45)
             Appointment(
                 id: "1",
@@ -141,6 +154,16 @@ class ViewController: UIViewController {
                 endTime: TimeUtils.createTime(hour: 13, minute: 30),
                 color: UIColor(red: 96/255, green: 125/255, blue: 139/255, alpha: 1.0), // Blue Grey
                 backgroundColor: UIColor(red: 236/255, green: 239/255, blue: 241/255, alpha: 1.0)
+            ),
+            // Late Evening (18:00 - 22:00) - Will be clipped at 21:00
+            Appointment(
+                id: "9",
+                title: "Evening Event",
+                subtitle: "Extends beyond visible range",
+                startTime: TimeUtils.createTime(hour: 18, minute: 0),
+                endTime: TimeUtils.createTime(hour: 22, minute: 0),
+                color: UIColor(red: 103/255, green: 58/255, blue: 183/255, alpha: 1.0), // Deep Purple
+                backgroundColor: UIColor(red: 237/255, green: 231/255, blue: 246/255, alpha: 1.0)
             )
         ]
     }

@@ -205,6 +205,13 @@ public class TimelineScheduleView: UIScrollView {
     }
     
     private func updateTimeRange() {
+        // Use fixed hours if specified
+        if let fixedStart = config.fixedStartHour, let fixedEnd = config.fixedEndHour {
+            startHour = max(0, min(23, fixedStart))
+            endHour = max(startHour + 1, min(24, fixedEnd))
+            return
+        }
+        
         guard !appointments.isEmpty else {
             startHour = 8
             endHour = 18
@@ -322,8 +329,20 @@ public class TimelineScheduleView: UIScrollView {
         let startMinutes = TimeUtils.minutesFromMidnight(appointment.startTime)
         let endMinutes = TimeUtils.minutesFromMidnight(appointment.endTime)
         
-        let hoursSinceStart = (CGFloat(startMinutes) / 60.0) - CGFloat(startHour)
-        let duration = CGFloat(endMinutes - startMinutes) / 60.0
+        // Clamp appointment times to visible range
+        let visibleStartMinutes = startHour * 60
+        let visibleEndMinutes = endHour * 60
+        
+        let clampedStartMinutes = max(startMinutes, visibleStartMinutes)
+        let clampedEndMinutes = min(endMinutes, visibleEndMinutes)
+        
+        // Skip if appointment is completely outside visible range
+        guard clampedStartMinutes < clampedEndMinutes else {
+            return UIView(frame: .zero)
+        }
+        
+        let hoursSinceStart = (CGFloat(clampedStartMinutes) / 60.0) - CGFloat(startHour)
+        let duration = CGFloat(clampedEndMinutes - clampedStartMinutes) / 60.0
         
         let top = hoursSinceStart * config.hourHeight
         let height = duration * config.hourHeight - config.appointmentPadding

@@ -34,6 +34,12 @@ public struct TimelineConfig {
     /// Custom time labels (if nil, will auto-generate from appointments)
     public var customTimeLabels: [String]?
     
+    /// Fixed start hour (if nil, will auto-calculate from appointments). Range: 0-23
+    public var fixedStartHour: Int?
+    
+    /// Fixed end hour (if nil, will auto-calculate from appointments). Range: 1-24
+    public var fixedEndHour: Int?
+    
     // MARK: - Grid Settings
     
     /// Whether to show horizontal grid lines
@@ -123,6 +129,8 @@ public struct TimelineConfig {
         timeLabelColor: UIColor = .systemGray,
         hourHeight: CGFloat = 100,
         customTimeLabels: [String]? = nil,
+        fixedStartHour: Int? = nil,
+        fixedEndHour: Int? = nil,
         showGridLines: Bool = true,
         gridLineColor: UIColor = .separator,
         gridLineWidth: CGFloat = 1,
@@ -151,6 +159,8 @@ public struct TimelineConfig {
         self.timeLabelColor = timeLabelColor
         self.hourHeight = hourHeight
         self.customTimeLabels = customTimeLabels
+        self.fixedStartHour = fixedStartHour
+        self.fixedEndHour = fixedEndHour
         self.showGridLines = showGridLines
         self.gridLineColor = gridLineColor
         self.gridLineWidth = gridLineWidth
