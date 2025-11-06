@@ -22,6 +22,14 @@ public class TimelineScheduleView: UIScrollView {
     public var config = TimelineConfig() {
         didSet {
             setupTimeline()
+            
+            // Restart timer if current time indicator setting changed
+            if config.showCurrentTimeIndicator {
+                startCurrentTimeTimer()
+            } else {
+                timeUpdateTimer?.invalidate()
+                timeUpdateTimer = nil
+            }
         }
     }
     
@@ -214,6 +222,13 @@ public class TimelineScheduleView: UIScrollView {
             maxHour = max(maxHour, endH)
         }
         
+        // Include current time if indicator is enabled
+        if config.showCurrentTimeIndicator {
+            let currentHour = TimeUtils.getHour(from: Date())
+            minHour = min(minHour, currentHour)
+            maxHour = max(maxHour, currentHour)
+        }
+        
         // Add padding
         startHour = max(0, minHour - 1)
         endHour = min(24, maxHour + 2)
@@ -394,12 +409,12 @@ public class TimelineScheduleView: UIScrollView {
         let now = Date()
         let currentHour = TimeUtils.getHour(from: now)
         
-        // Only draw if current time is within visible range
-        guard currentHour >= startHour && currentHour <= endHour else { return }
-        
         let currentMinutes = TimeUtils.minutesFromMidnight(now)
         let hoursSinceStart = (CGFloat(currentMinutes) / 60.0) - CGFloat(startHour)
         let y = hoursSinceStart * config.hourHeight
+        
+        // Only draw if y position is positive (within or after visible range)
+        guard y >= 0 else { return }
         
         // Draw circular dot on the left edge (in time column area)
         let dotLayer = CAShapeLayer()
