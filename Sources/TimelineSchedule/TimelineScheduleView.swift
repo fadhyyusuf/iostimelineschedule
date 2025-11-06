@@ -265,11 +265,11 @@ public class TimelineScheduleView: UIScrollView {
             timeLabel.textColor = config.timeLabelColor
             timeLabel.textAlignment = .right
             
-            // Position label at the top of each hour slot (like Android)
+            // Position label below the grid line (like Android)
             let yPosition = CGFloat(index) * config.hourHeight
             timeLabel.frame = CGRect(
                 x: 0,
-                y: yPosition - 8, // Offset upward to align with grid line
+                y: yPosition + 4, // Offset downward to position below grid line
                 width: config.timeColumnWidth - 8,
                 height: 20 // Fixed height for text
             )
