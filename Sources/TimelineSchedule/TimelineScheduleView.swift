@@ -319,12 +319,11 @@ public class TimelineScheduleView: UIScrollView {
         
         let frame = CGRect(x: left, y: top, width: width, height: height)
         
-        // Create card view
+        // Create card view with background color from appointment
         let cardView = UIView(frame: frame)
         cardView.backgroundColor = appointment.backgroundColor
         cardView.layer.cornerRadius = config.cardCornerRadius
-        cardView.layer.borderWidth = 2
-        cardView.layer.borderColor = appointment.color.cgColor
+        cardView.clipsToBounds = false
         
         // Add shadow
         cardView.layer.shadowColor = UIColor.black.cgColor
@@ -332,17 +331,30 @@ public class TimelineScheduleView: UIScrollView {
         cardView.layer.shadowRadius = config.cardShadowRadius
         cardView.layer.shadowOffset = config.cardShadowOffset
         
+        // Add left border accent (colored strip on left side like Android)
+        let leftBorder = UIView()
+        leftBorder.backgroundColor = appointment.color
+        leftBorder.translatesAutoresizingMaskIntoConstraints = false
+        cardView.addSubview(leftBorder)
+        
+        NSLayoutConstraint.activate([
+            leftBorder.leadingAnchor.constraint(equalTo: cardView.leadingAnchor),
+            leftBorder.topAnchor.constraint(equalTo: cardView.topAnchor),
+            leftBorder.bottomAnchor.constraint(equalTo: cardView.bottomAnchor),
+            leftBorder.widthAnchor.constraint(equalToConstant: 4)
+        ])
+        
         // Create content stack
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.spacing = 4
+        stackView.spacing = 2
         stackView.alignment = .leading
         
         // Add title
         let titleLabel = UILabel()
         titleLabel.text = appointment.title
         titleLabel.font = UIFont.systemFont(ofSize: config.titleFontSize, weight: config.titleFontWeight)
-        titleLabel.textColor = appointment.color
+        titleLabel.textColor = .label // Use system label color for better contrast
         titleLabel.numberOfLines = 0
         stackView.addArrangedSubview(titleLabel)
         
@@ -351,17 +363,17 @@ public class TimelineScheduleView: UIScrollView {
             let subtitleLabel = UILabel()
             subtitleLabel.text = subtitle
             subtitleLabel.font = UIFont.systemFont(ofSize: config.subtitleFontSize, weight: config.subtitleFontWeight)
-            subtitleLabel.textColor = .systemGray
+            subtitleLabel.textColor = .secondaryLabel // Use system secondary label color
             subtitleLabel.numberOfLines = 0
             stackView.addArrangedSubview(subtitleLabel)
         }
         
-        // Add stack to card with padding
+        // Add stack to card with padding (more padding on left to avoid overlap with border)
         cardView.addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 8),
-            stackView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 8),
+            stackView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 12), // More padding for left border
             stackView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -8),
             stackView.bottomAnchor.constraint(lessThanOrEqualTo: cardView.bottomAnchor, constant: -8)
         ])
@@ -389,7 +401,7 @@ public class TimelineScheduleView: UIScrollView {
         let hoursSinceStart = (CGFloat(currentMinutes) / 60.0) - CGFloat(startHour)
         let y = hoursSinceStart * config.hourHeight
         
-        // Draw dot
+        // Draw circular dot on the left edge (in time column area)
         let dotLayer = CAShapeLayer()
         let dotX = config.timeColumnWidth - config.currentTimeDotRadius - 4
         let dotPath = UIBezierPath(
@@ -403,7 +415,7 @@ public class TimelineScheduleView: UIScrollView {
         dotLayer.fillColor = config.currentTimeIndicatorColor.cgColor
         currentTimeIndicatorView.layer.addSublayer(dotLayer)
         
-        // Draw line
+        // Draw horizontal line from the edge of dot to the right edge
         let lineLayer = CAShapeLayer()
         let linePath = UIBezierPath()
         let lineStartX = dotX + config.currentTimeDotRadius

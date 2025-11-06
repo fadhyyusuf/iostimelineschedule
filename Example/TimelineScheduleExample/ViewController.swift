@@ -62,86 +62,85 @@ class ViewController: UIViewController {
     
     private func createSampleAppointments() -> [Appointment] {
         return [
+            // Robert Fox - Checked out (08:00 - 08:45)
             Appointment(
                 id: "1",
+                title: "Robert Fox",
+                subtitle: "Checked out",
+                startTime: TimeUtils.createTime(hour: 8, minute: 0),
+                endTime: TimeUtils.createTime(hour: 8, minute: 45),
+                color: UIColor(red: 244/255, green: 67/255, blue: 54/255, alpha: 1.0), // Red
+                backgroundColor: UIColor(red: 255/255, green: 235/255, blue: 238/255, alpha: 1.0)
+            ),
+            // Abril Lewis - Physician (08:00 - 08:45)
+            Appointment(
+                id: "2",
                 title: "Abril Lewis",
                 subtitle: "Physician",
                 startTime: TimeUtils.createTime(hour: 8, minute: 0),
-                endTime: TimeUtils.createTime(hour: 8, minute: 30),
-                color: UIColor(red: 156/255, green: 39/255, blue: 176/255, alpha: 1.0),
+                endTime: TimeUtils.createTime(hour: 8, minute: 45),
+                color: UIColor(red: 156/255, green: 39/255, blue: 176/255, alpha: 1.0), // Purple
                 backgroundColor: UIColor(red: 243/255, green: 229/255, blue: 245/255, alpha: 1.0)
             ),
-            Appointment(
-                id: "2",
-                title: "Angelica Ramos",
-                subtitle: "Psychologist",
-                startTime: TimeUtils.createTime(hour: 9, minute: 0),
-                endTime: TimeUtils.createTime(hour: 10, minute: 0),
-                color: UIColor(red: 233/255, green: 30/255, blue: 99/255, alpha: 1.0),
-                backgroundColor: UIColor(red: 252/255, green: 228/255, blue: 236/255, alpha: 1.0)
-            ),
+            // Cody Fisher - Checked in (09:00 - 10:30)
             Appointment(
                 id: "3",
-                title: "Ashton Cox",
-                subtitle: "Nurse Practitioner",
-                startTime: TimeUtils.createTime(hour: 9, minute: 30),
-                endTime: TimeUtils.createTime(hour: 11, minute: 0),
-                color: UIColor(red: 255/255, green: 152/255, blue: 0/255, alpha: 1.0),
-                backgroundColor: UIColor(red: 255/255, green: 243/255, blue: 224/255, alpha: 1.0)
+                title: "Cody Fisher",
+                subtitle: "Checked in",
+                startTime: TimeUtils.createTime(hour: 9, minute: 0),
+                endTime: TimeUtils.createTime(hour: 10, minute: 30),
+                color: UIColor(red: 233/255, green: 30/255, blue: 99/255, alpha: 1.0), // Pink
+                backgroundColor: UIColor(red: 252/255, green: 228/255, blue: 236/255, alpha: 1.0)
             ),
+            // Annette Black - Checked in (09:15 - 10:45)
             Appointment(
                 id: "4",
-                title: "Bradley Greer",
-                subtitle: "Dentist",
-                startTime: TimeUtils.createTime(hour: 10, minute: 0),
-                endTime: TimeUtils.createTime(hour: 11, minute: 30),
-                color: UIColor(red: 33/255, green: 150/255, blue: 243/255, alpha: 1.0),
-                backgroundColor: UIColor(red: 227/255, green: 242/255, blue: 253/255, alpha: 1.0)
+                title: "Annette Black",
+                subtitle: "Checked in",
+                startTime: TimeUtils.createTime(hour: 9, minute: 15),
+                endTime: TimeUtils.createTime(hour: 10, minute: 45),
+                color: UIColor(red: 156/255, green: 39/255, blue: 176/255, alpha: 1.0), // Purple
+                backgroundColor: UIColor(red: 243/255, green: 229/255, blue: 245/255, alpha: 1.0)
             ),
+            // Kathryn Murphy - Checked in (10:00 - 10:45)
             Appointment(
                 id: "5",
-                title: "Caesar Vance",
-                subtitle: "Orthopedic Surgeon",
-                startTime: TimeUtils.createTime(hour: 12, minute: 0),
-                endTime: TimeUtils.createTime(hour: 13, minute: 0),
-                color: UIColor(red: 76/255, green: 175/255, blue: 80/255, alpha: 1.0),
-                backgroundColor: UIColor(red: 232/255, green: 245/255, blue: 233/255, alpha: 1.0)
-            ),
-            Appointment(
-                id: "6",
-                title: "Cara Stevens",
-                subtitle: "Dermatologist",
-                startTime: TimeUtils.createTime(hour: 13, minute: 0),
-                endTime: TimeUtils.createTime(hour: 14, minute: 30),
-                color: UIColor(red: 103/255, green: 58/255, blue: 183/255, alpha: 1.0),
+                title: "Kathryn Murphy",
+                subtitle: "Checked in",
+                startTime: TimeUtils.createTime(hour: 10, minute: 0),
+                endTime: TimeUtils.createTime(hour: 10, minute: 45),
+                color: UIColor(red: 103/255, green: 58/255, blue: 183/255, alpha: 1.0), // Deep Purple
                 backgroundColor: UIColor(red: 237/255, green: 231/255, blue: 246/255, alpha: 1.0)
             ),
+            // Brooklyn Simmon - Confirmed (10:15 - 11:45)
+            Appointment(
+                id: "6",
+                title: "Brooklyn Simmon",
+                subtitle: "Confirmed",
+                startTime: TimeUtils.createTime(hour: 10, minute: 15),
+                endTime: TimeUtils.createTime(hour: 11, minute: 45),
+                color: UIColor(red: 33/255, green: 150/255, blue: 243/255, alpha: 1.0), // Blue
+                backgroundColor: UIColor(red: 227/255, green: 242/255, blue: 253/255, alpha: 1.0)
+            ),
+            // Arlene McCoy - Confirmed (11:00 - 11:30)
             Appointment(
                 id: "7",
-                title: "Cedric Kelly",
-                subtitle: "Cardiologist",
-                startTime: TimeUtils.createTime(hour: 14, minute: 0),
-                endTime: TimeUtils.createTime(hour: 15, minute: 30),
-                color: UIColor(red: 0/255, green: 150/255, blue: 136/255, alpha: 1.0),
-                backgroundColor: UIColor(red: 224/255, green: 242/255, blue: 241/255, alpha: 1.0)
+                title: "Arlene McCoy",
+                subtitle: "Confirmed",
+                startTime: TimeUtils.createTime(hour: 11, minute: 0),
+                endTime: TimeUtils.createTime(hour: 11, minute: 30),
+                color: UIColor(red: 0/255, green: 188/255, blue: 212/255, alpha: 1.0), // Cyan
+                backgroundColor: UIColor(red: 224/255, green: 247/255, blue: 250/255, alpha: 1.0)
             ),
+            // Seminar (12:00 - 13:30)
             Appointment(
                 id: "8",
-                title: "Charde Marshall",
-                subtitle: "Pediatrician",
-                startTime: TimeUtils.createTime(hour: 15, minute: 0),
-                endTime: TimeUtils.createTime(hour: 16, minute: 0),
-                color: UIColor(red: 255/255, green: 87/255, blue: 34/255, alpha: 1.0),
-                backgroundColor: UIColor(red: 255/255, green: 235/255, blue: 238/255, alpha: 1.0)
-            ),
-            Appointment(
-                id: "9",
-                title: "Colleen Hurst",
-                subtitle: "Neurologist",
-                startTime: TimeUtils.createTime(hour: 16, minute: 30),
-                endTime: TimeUtils.createTime(hour: 17, minute: 30),
-                color: UIColor(red: 63/255, green: 81/255, blue: 181/255, alpha: 1.0),
-                backgroundColor: UIColor(red: 232/255, green: 234/255, blue: 246/255, alpha: 1.0)
+                title: "Seminar",
+                subtitle: nil,
+                startTime: TimeUtils.createTime(hour: 12, minute: 0),
+                endTime: TimeUtils.createTime(hour: 13, minute: 30),
+                color: UIColor(red: 96/255, green: 125/255, blue: 139/255, alpha: 1.0), // Blue Grey
+                backgroundColor: UIColor(red: 236/255, green: 239/255, blue: 241/255, alpha: 1.0)
             )
         ]
     }
