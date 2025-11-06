@@ -11,6 +11,8 @@ import TimelineSchedule
 class ViewController: UIViewController {
     
     private let timelineView = TimelineScheduleView()
+    private let headerLabel = UILabel()
+    private let footerButton = UIButton(type: .system)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,8 +20,28 @@ class ViewController: UIViewController {
         title = "Timeline Schedule"
         view.backgroundColor = .systemBackground
         
+        setupHeaderView()
         setupTimelineView()
+        setupFooterView()
         setupAppointments()
+    }
+    
+    private func setupHeaderView() {
+        // Add header label above timeline to demonstrate responsive layout
+        headerLabel.text = "Today's Schedule"
+        headerLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        headerLabel.textAlignment = .center
+        headerLabel.backgroundColor = .systemGray6
+        headerLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(headerLabel)
+        
+        NSLayoutConstraint.activate([
+            headerLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            headerLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            headerLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            headerLabel.heightAnchor.constraint(equalToConstant: 50)
+        ])
     }
     
     private func setupTimelineView() {
@@ -28,10 +50,10 @@ class ViewController: UIViewController {
         timelineView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            timelineView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            timelineView.topAnchor.constraint(equalTo: headerLabel.bottomAnchor),
             timelineView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             timelineView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            timelineView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            timelineView.bottomAnchor.constraint(equalTo: footerButton.topAnchor)
         ])
         
         // Configure timeline
@@ -51,6 +73,26 @@ class ViewController: UIViewController {
         timelineView.onAppointmentTap = { [weak self] appointment in
             self?.showAppointmentDetails(appointment)
         }
+    }
+    
+    private func setupFooterView() {
+        // Add footer button below timeline to demonstrate responsive layout
+        footerButton.setTitle("Add New Appointment", for: .normal)
+        footerButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        footerButton.backgroundColor = .systemBlue
+        footerButton.setTitleColor(.white, for: .normal)
+        footerButton.layer.cornerRadius = 8
+        footerButton.translatesAutoresizingMaskIntoConstraints = false
+        footerButton.addTarget(self, action: #selector(addAppointmentTapped), for: .touchUpInside)
+        
+        view.addSubview(footerButton)
+        
+        NSLayoutConstraint.activate([
+            footerButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            footerButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            footerButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            footerButton.heightAnchor.constraint(equalToConstant: 50)
+        ])
     }
     
     private func setupAppointments() {
@@ -182,6 +224,17 @@ class ViewController: UIViewController {
         
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         
+        present(alert, animated: true)
+    }
+    
+    @objc private func addAppointmentTapped() {
+        let alert = UIAlertController(
+            title: "Add Appointment",
+            message: "This demonstrates the responsive layout.\nThe timeline adjusts its height automatically.",
+            preferredStyle: .alert
+        )
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
     }
 }
