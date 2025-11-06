@@ -349,11 +349,15 @@ public class TimelineScheduleView: UIScrollView {
         let top = hoursSinceStart * config.hourHeight
         let height = duration * config.hourHeight - config.appointmentPadding
         
+        // Ensure height doesn't exceed visible content area
+        let maxHeight = (CGFloat(endHour - startHour) * config.hourHeight) - top - config.appointmentPadding
+        let clampedHeight = min(height, max(0, maxHeight))
+        
         let columnWidth = appointmentContainerView.bounds.width / CGFloat(positioned.totalColumns)
         let left = columnWidth * CGFloat(positioned.column)
         let width = columnWidth - config.appointmentPadding
         
-        let frame = CGRect(x: left, y: top, width: width, height: height)
+        let frame = CGRect(x: left, y: top, width: width, height: clampedHeight)
         
         // Create card view with background color from appointment
         let cardView = UIView(frame: frame)
