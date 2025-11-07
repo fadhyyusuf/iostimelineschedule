@@ -47,7 +47,8 @@ class TimeUtils {
     /// - Parameter date: Date to extract hour from
     /// - Returns: Hour (0-23)
     static func getHour(from date: Date) -> Int {
-        let calendar = Calendar.current
+        var calendar = Calendar.current
+        calendar.timeZone = TimeZone.current
         return calendar.component(.hour, from: date)
     }
     
@@ -55,7 +56,8 @@ class TimeUtils {
     /// - Parameter date: Date to extract minute from
     /// - Returns: Minute (0-59)
     static func getMinute(from date: Date) -> Int {
-        let calendar = Calendar.current
+        var calendar = Calendar.current
+        calendar.timeZone = TimeZone.current
         return calendar.component(.minute, from: date)
     }
     
@@ -65,10 +67,14 @@ class TimeUtils {
     ///   - minute: Minute (0-59)
     /// - Returns: Date with specified time
     static func createTime(hour: Int, minute: Int = 0) -> Date {
-        let calendar = Calendar.current
+        var calendar = Calendar.current
+        calendar.timeZone = TimeZone.current
         var components = calendar.dateComponents([.year, .month, .day], from: Date())
         components.hour = hour
         components.minute = minute
+        components.second = 0
+        components.nanosecond = 0
+        components.timeZone = TimeZone.current
         return calendar.date(from: components) ?? Date()
     }
     
