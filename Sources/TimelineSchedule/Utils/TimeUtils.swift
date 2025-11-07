@@ -20,12 +20,16 @@ class TimeUtils {
     private static let timeFormatter12Hour: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "hh:mm a"
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone = TimeZone.current
         return formatter
     }()
     
     private static let timeFormatter24Hour: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm"
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone = TimeZone.current
         return formatter
     }()
     
