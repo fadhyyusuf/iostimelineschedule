@@ -97,6 +97,25 @@ class ViewController: UIViewController {
     
     private func setupAppointments() {
         let appointments = createSampleAppointments()
+        
+        // Debug: Print timezone and appointment times
+        print("=== DEBUG INFO ===")
+        print("Device Timezone: \(TimeZone.current.identifier)")
+        print("Timezone offset: \(TimeZone.current.secondsFromGMT() / 3600) hours")
+        
+        for appointment in appointments.prefix(2) {
+            let startDate = appointment.startTime
+            let hour = Calendar.current.component(.hour, from: startDate)
+            let minute = Calendar.current.component(.minute, from: startDate)
+            
+            print("\nAppointment: \(appointment.title)")
+            print("  Created with hour: \(TimeUtils.getHour(from: startDate)), minute: \(TimeUtils.getMinute(from: startDate))")
+            print("  Format 12h: \(TimeUtils.formatTime(startDate, use24Hour: false))")
+            print("  Format 24h: \(TimeUtils.formatTime(startDate, use24Hour: true))")
+            print("  Raw Date: \(startDate)")
+        }
+        print("==================")
+        
         timelineView.setAppointments(appointments)
         
         // Scroll to current time after a short delay
