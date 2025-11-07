@@ -47,18 +47,14 @@ class TimeUtils {
     /// - Parameter date: Date to extract hour from
     /// - Returns: Hour (0-23)
     static func getHour(from date: Date) -> Int {
-        var calendar = Calendar.current
-        calendar.timeZone = TimeZone.current
-        return calendar.component(.hour, from: date)
+        return Calendar.current.component(.hour, from: date)
     }
     
     /// Get minute component from date
     /// - Parameter date: Date to extract minute from
     /// - Returns: Minute (0-59)
     static func getMinute(from date: Date) -> Int {
-        var calendar = Calendar.current
-        calendar.timeZone = TimeZone.current
-        return calendar.component(.minute, from: date)
+        return Calendar.current.component(.minute, from: date)
     }
     
     /// Create a date with specific hour and minute for today
@@ -68,13 +64,14 @@ class TimeUtils {
     /// - Returns: Date with specified time
     static func createTime(hour: Int, minute: Int = 0) -> Date {
         var calendar = Calendar.current
-        calendar.timeZone = TimeZone.current
-        var components = calendar.dateComponents([.year, .month, .day], from: Date())
+        var components = DateComponents()
+        components.year = calendar.component(.year, from: Date())
+        components.month = calendar.component(.month, from: Date())
+        components.day = calendar.component(.day, from: Date())
         components.hour = hour
         components.minute = minute
         components.second = 0
-        components.nanosecond = 0
-        components.timeZone = TimeZone.current
+        
         return calendar.date(from: components) ?? Date()
     }
     
