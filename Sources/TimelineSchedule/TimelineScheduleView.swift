@@ -226,6 +226,21 @@ public class TimelineScheduleView: UIScrollView {
             return
         }
         
+        // If customTimeLabels is used, infer range from label count
+        if let customLabels = config.customTimeLabels, !customLabels.isEmpty {
+            // Assume labels start from first appointment or a reasonable default
+            if !appointments.isEmpty {
+                let firstHour = TimeUtils.getHour(from: appointments.map { $0.startTime }.min()!)
+                startHour = firstHour
+                endHour = startHour + customLabels.count
+            } else {
+                // Default to 8 AM if no appointments
+                startHour = 8
+                endHour = startHour + customLabels.count
+            }
+            return
+        }
+        
         guard !appointments.isEmpty else {
             startHour = 8
             endHour = 18
